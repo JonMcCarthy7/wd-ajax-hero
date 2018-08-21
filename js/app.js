@@ -39,7 +39,7 @@
       $action.append($plot);
       $card.append($action);
 
-      axios.get(`${URL}${titleType}${movie.Title}`).then(res => {
+      axios.get(`${URL}${searchByTitle}${movie.Title}`).then(res => {
         const $modal = $("<div>")
           .addClass("modal")
           .attr("id", res.data.imdbID);
@@ -62,8 +62,8 @@
 
   // ADD YOUR CODE HERE
   const URL = "http://www.omdbapi.com/?i=tt3896198&apikey=e67e4b44&";
-  const searchType = `s=`;
-  const titleType = `t=`;
+  const searchBySearch = `s=`;
+  const searchByTitle = `t=`;
   const search = document.getElementById("search");
   const button = document.querySelector("button");
   button.addEventListener("click", e => {
@@ -71,9 +71,9 @@
     console.log(search.value);
 
     let movie = search.value;
-    console.log(`${URL}${searchType}${movie}`);
+    console.log(`${URL}${searchBySearch}${movie}`);
 
-    axios.get(`${URL}${searchType}${search.value}`).then(res => {
+    axios.get(`${URL}${searchBySearch}${search.value}`).then(res => {
       console.log(res.data.Search);
 
       renderMovies(res.data.Search);
