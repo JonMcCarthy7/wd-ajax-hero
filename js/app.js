@@ -39,27 +39,31 @@
       $action.append($plot);
       $card.append($action);
 
-      const $modal = $("<div>")
-        .addClass("modal")
-        .attr("id", movie.imdbID);
-      const $modalContent = $("<div>").addClass("modal-content");
-      const $modalHeader = $("<h4>").text(movie.Title);
-      const $movieYear = $("<h6>").text(`Released in ${movie.Year}`);
-      const $modalText = $("<p>").text(movie.Plot);
+      axios.get(`${URL}${titleType}${movie.Title}`).then(res => {
+        const $modal = $("<div>")
+          .addClass("modal")
+          .attr("id", res.data.imdbID);
+        const $modalContent = $("<div>").addClass("modal-content");
+        const $modalHeader = $("<h4>").text(res.data.Title);
+        const $movieYear = $("<h6>").text(`Released in ${res.data.Year}`);
+        const $modalText = $("<p>").text(res.data.Plot);
 
-      $modalContent.append($modalHeader, $movieYear, $modalText);
-      $modal.append($modalContent);
+        $modalContent.append($modalHeader, $movieYear, $modalText);
+        $modal.append($modalContent);
 
-      $col.append($card, $modal);
+        $col.append($card, $modal);
 
-      $("#listings").append($col);
+        $("#listings").append($col);
 
-      $(".modal-trigger").leanModal();
+        $(".modal-trigger").leanModal();
+      });
     }
   };
 
   // ADD YOUR CODE HERE
-  const URL = "http://www.omdbapi.com/?i=tt3896198&apikey=e67e4b44&s=";
+  const URL = "http://www.omdbapi.com/?i=tt3896198&apikey=e67e4b44&";
+  const searchType = `s=`;
+  const titleType = `t=`;
   const search = document.getElementById("search");
   const button = document.querySelector("button");
   button.addEventListener("click", e => {
@@ -67,10 +71,9 @@
     console.log(search.value);
 
     let movie = search.value;
-    console.log(`${URL}${movie}`);
+    console.log(`${URL}${searchType}${movie}`);
 
-    axios.get(`${URL}${search.value}`).then(res => {
-      // movies.push(res.data.Search);
+    axios.get(`${URL}${searchType}${search.value}`).then(res => {
       console.log(res.data.Search);
 
       renderMovies(res.data.Search);
